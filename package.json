@@ -1,6 +1,6 @@
 {
   "name": "bourbon-data",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Simple app data management",
   "main": "dist/main.js",
   "scripts": {
