@@ -1,0 +1,47 @@
+{
+  "name": "bourbon-data",
+  "version": "1.0.0",
+  "description": "Simple app data management",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --config webpack.config.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage",
+    "lint": "eslint --ext .jsx --ext .js src"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:KacperKozak/bourbon-data.git"
+  },
+  "keywords": [
+    "data",
+    "state"
+  ],
+  "author": "Kacper Kozak <kontakt@kacperkozak.pl>, Grzegorz Szyda <kontakt@grzegorzszyda.pl>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
+    "babel-jest": "^18.0.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "jest": "^18.1.0",
+    "pre-commit": "^1.2.2",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-hot-middleware": "^2.15.0"
+  }
+}
