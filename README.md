@@ -16,19 +16,9 @@ const store = new BourbonData({
     defaultAdapter: LocalStorageAdapter,
 });
 
-store.define('user', new Data({
-    default: {
-        name: '',
-        lastName: '',
-        age: null,
-    }
-}));
+store.define('user', new Data());
 store.define('posts', new DataList({
     id: 'id', // default,
-    default: {
-        title: '',
-        content: '',
-    }
 }));
 
 store.on('posts', (posts) => {
