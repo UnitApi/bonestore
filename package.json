@@ -1,6 +1,6 @@
 {
   "name": "bourbon-data",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "Simple app data management",
   "main": "dist/main.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "start": "webpack-dev-server --config webpack.config.js",
     "test": "jest --coverage",
     "test:watch": "jest --watch --coverage",
-    "lint": "eslint --ext .jsx --ext .js src"
+    "lint": "eslint --ext .jsx --ext .js src",
+    "prepublish": "npm run build"
   },
   "pre-commit": [
     "lint",
@@ -22,7 +23,7 @@
     "data",
     "state"
   ],
-  "author": "Kacper Kozak <kontakt@kacperkozak.pl>, Grzegorz Szyda <kontakt@grzegorzszyda.pl>",
+  "author": "Kacper Kozak <kontakt@kacperkozak.pl>",
   "license": "UNLICENSED",
   "dependencies": {
     "uuid": "^3.0.1"
