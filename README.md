@@ -2,18 +2,46 @@
 
 Simple app data management.
 
+## API
+
+- **`new BourbonData(config)`**
+  - `define(name, storeManager)`
+  - `get(name)`
+  - `on(name, callback)`
+
+### Data managers
+
+- **`new Data(config)`**
+  - `find()`
+  - `create(obj)`
+  - `update(obj)`
+  - `delete()`
+
+
+- **`new DataList(config)`**
+  - `find(id)`
+  - `findAll()`
+  - `create(obj)`
+  - `update(obj)`
+  - `delete(id)`
+
+### Adapters
+
+- `new MemoryAdapter()`
+- `new LocalStorageAdapter(config)`
+- `new HttpRestAdapter(config)` **(work in progress)**
+
 
 ## Example
 
+### Create store
 ```js
 import BourbonData, { Data, DataList, LocalStorageAdapter } from 'bourbon-data';
 
-const userLocalAdapter = new LocalStorageAdapter({
-    prefix: 'app_',
-});
-
 const store = new BourbonData({
-    defaultAdapter: LocalStorageAdapter,
+    defaultAdapter: new LocalStorageAdapter({
+        prefix: 'my_app_',
+    }),
 });
 
 store.define('user', new Data());
@@ -26,21 +54,7 @@ store.on('posts', (posts) => {
 })
 ```
 
-## Methods
-
-- Data:             
-  - `find()`        
-  - `create(obj)`   
-  - `update(obj)`   
-  - `delete()`      
-
-
-- DataList:            
-  - `find(id)`         
-  - `findAll(query?)`  
-  - `create(obj)`      
-  - `update(obj)`      
-  - `delete(id)`       
+### Usage       
 
 ```js
 store.get('user')
@@ -72,20 +86,9 @@ store.get('user')
     });
 
 
+
 store.get('posts')
     .findAll()
-    .then((postArray) => {
-        postArray[0].title;
-    });
-
-store.get('posts')
-    .findAll({ page: 2 })
-    .then((postArray) => {
-        postArray[0].title;
-    });
-
-store.get('posts')
-    .findAll('@me')
     .then((postArray) => {
         postArray[0].title;
     });
