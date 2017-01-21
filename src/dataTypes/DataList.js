@@ -35,6 +35,9 @@ class DataList {
             this.container.emit(this.key, 'delete');
         });
     }
+    defaultFind() {
+        return this.findAll();
+    }
 }
 
 export default DataList;

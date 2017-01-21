@@ -28,6 +28,9 @@ class Data {
             this.container.emit(this.key, 'delete');
         });
     }
+    defaultFind() {
+        return this.find();
+    }
 }
 
 export default Data;
