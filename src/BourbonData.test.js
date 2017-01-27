@@ -1,75 +1,76 @@
 import BourbonData from './BourbonData';
-import Data from './dataTypes/Data';
+import Store from './stores/Store';
 import MemoryAdapter from './adapters/MemoryAdapter';
 
 describe('BourbonData', () => {
     it('should define store', () => {
         const memoryAdapter = new MemoryAdapter();
-        const store = new BourbonData();
-        const data = new Data({
+        const data = new BourbonData();
+        const store = new Store({
             adapter: memoryAdapter,
         });
-        store.define('user', data);
-        expect(store.get('user')).toBe(data);
+        data.defineStore('user', store);
+        expect(data.getStore('user')).toBe(store);
     });
-    it('should use default adapter store', () => {
+    it('should use default adapter', () => {
         const memoryAdapter = new MemoryAdapter();
-        const store = new BourbonData({
+        const data = new BourbonData({
             defaultAdapter: memoryAdapter,
         });
-        store.define('user', new Data());
-        expect(store.get('user').adapter).toBe(memoryAdapter);
+        data.defineStore('user', new Store());
+        expect(data.getStore('user').adapter).toBe(memoryAdapter);
     });
     it('should create and find data', () => {
         const memoryAdapter = new MemoryAdapter();
-        const store = new BourbonData();
-        store.define('user', new Data({
+        const data = new BourbonData();
+        data.defineStore('user', new Store({
             adapter: memoryAdapter,
         }));
-        return store.get('user')
+        return data.getStore('user')
             .create({ name: 'Test' })
             .then(() =>
-                store.get('user').find().then((data) => {
-                    expect(data.name).toBe('Test');
+                data.getStore('user').find().then((user) => {
+                    expect(user.name).toBe('Test');
                 })
             );
     });
 
     describe('events', () => {
-        let store;
+        let data;
         beforeEach(() => {
-            store = new BourbonData({
+            data = new BourbonData({
                 defaultAdapter: new MemoryAdapter(),
             });
-            store.define('user', new Data({}));
+            data.defineStore('user', new Store({}));
         });
         it('should emit create event', () =>
             new Promise((resolve) => {
-                store.on('user', (event, data) => {
-                    expect(event).toBe('create');
-                    expect(data.name).toBe('Test');
+                data.onStoreChange('user', (storeName, changeType, payload) => {
+                    expect(storeName).toBe('user');
+                    expect(changeType).toBe('create');
+                    expect(payload.name).toBe('Test');
                     resolve();
                 });
-                store.get('user').create({ name: 'Test' });
+                data.getStore('user').create({ name: 'Test' });
             })
         );
         it('should emit update event', () =>
             new Promise((resolve) => {
-                store.on('user', (event, data) => {
-                    expect(event).toBe('update');
-                    expect(data.name).toBe('Test');
+                data.onStoreChange('user', (storeName, changeType, payload) => {
+                    expect(changeType).toBe('update');
+                    expect(payload.name).toBe('Test');
                     resolve();
                 });
-                store.get('user').update({ name: 'Test' });
+                data.getStore('user').update({ name: 'Test' });
             })
         );
         it('should emit delete event', () =>
             new Promise((resolve) => {
-                store.on('user', (event) => {
-                    expect(event).toBe('delete');
+                data.onStoreChange('user', (storeName, changeType) => {
+                    expect(changeType).toBe('delete');
                     resolve();
                 });
-                store.get('user').delete();
+                data.getStore('user').delete();
             })
         );
         it('should not emit event', () =>
@@ -78,9 +79,9 @@ describe('BourbonData', () => {
                 const listener = () => {
                     emited = true;
                 };
-                store.on('user', listener);
-                store.off('user', listener);
-                store.get('user').delete();
+                data.onStoreChange('user', listener);
+                data.offStoreChange('user', listener);
+                data.getStore('user').delete();
                 setTimeout(() => {
                     expect(emited).toBe(false);
                     resolve();

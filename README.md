@@ -5,20 +5,22 @@ Simple app data management.
 ## API
 
 - **`new BourbonData(config)`**
-  - `define(name, storeManager)`
-  - `get(name)`
-  - `on(name, callback)`
+  - `defineStore(name, store)`
+  - `getStore(name)`
+  - `onStoreChange(storeName, callback)`
+  - `offStoreChange(storeName, callback)`
+  - `emitChange(storeName, changeType, payload)`
 
-### Data managers
+### Stores
 
-- **`new Data(config)`**
+- **`new Store(config)`**
   - `find()`
   - `create(obj)`
   - `update(obj)`
   - `delete()`
 
 
-- **`new DataList(config)`**
+- **`new CollectionStore(config)`**
   - `find(id)`
   - `findAll()`
   - `create(obj)`
@@ -34,36 +36,39 @@ Simple app data management.
 
 ## Example
 
-### Create store
+### Create BourbonData instance
 ```js
-import BourbonData, { Data, DataList, LocalStorageAdapter } from 'bourbon-data';
+import BourbonData, { Store, CollectionStore, LocalStorageAdapter } from 'bourbon-data';
 
-const store = new BourbonData({
+const data = new BourbonData({
     defaultAdapter: new LocalStorageAdapter({
         prefix: 'my_app_',
     }),
 });
-
-store.define('user', new Data());
-store.define('posts', new DataList({
-    id: 'id', // default,
-}));
-
-store.on('posts', (storeName, event, postsData) => {
-    console.log('Posts changed', postsData);
-})
 ```
 
-### Usage       
+### Define store
 
 ```js
-store.get('user')
+// Data object { key: value }
+data.defineStore('user', new Store());
+
+// Collection of objects [{key: value}, …]
+data.defineStore('posts', new CollectionStore({
+    id: 'id', // default,
+}));
+```
+
+### Read/create/update/delete store
+
+```js
+data.getStore('user')
     .find()
     .then((user) => {
         user.name;
     });
 
-store.get('user')
+data.getStore('user')
     .create({
         name: 'Kacper'
     })
@@ -71,7 +76,7 @@ store.get('user')
         user.name;
     });
 
-store.get('user')
+data.getStore('user')
     .update({
         name: 'Kacper'
     })
@@ -79,27 +84,29 @@ store.get('user')
         user.name;
     });
 
-store.get('user')
+data.getStore('user')
     .delete()
     .then(() => {
         // done
     });
+```
 
+### Read/create/update/delete collection store
 
-
-store.get('posts')
+```js
+data.getStore('posts')
     .findAll()
     .then((postArray) => {
         postArray[0].title;
     });
 
-store.get('posts')
+data.getStore('posts')
     .find(1)
     .then((post) => {
         post.title;
     });
 
-store.get('posts')
+data.getStore('posts')
     .create({
         title: 'Lorem',
     })
@@ -108,7 +115,7 @@ store.get('posts')
         post.title;
     });
 
-store.get('posts')
+data.getStore('posts')
     .update({
         id: 2,
         title: 'Lorem',
@@ -118,9 +125,17 @@ store.get('posts')
         post.title;
     });
 
-store.get('posts')
+data.getStore('posts')
     .delete(2)
     .then(() => {
         // done
     });
+```
+
+### Watch store changes
+
+```js
+data.onStoreChange('posts', (storeName, changeType, payload) => {
+    console.log('Posts changed', changeType, payload);
+})
 ```

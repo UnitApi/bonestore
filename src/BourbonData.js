@@ -1,42 +1,44 @@
 class BourbonData {
     constructor(config) {
         this.config = config;
-        this.definitions = [];
+        this.stores = [];
         this.listeners = [];
     }
 
-    define(key, instance) {
-        instance.onDefine(key, this);
-        this.definitions[key] = instance;
+    defineStore(storeName, store) {
+        store.onDefine(storeName, this);
+        this.stores[storeName] = store;
     }
 
-    get(key) {
-        const data = this.definitions[key];
-        return data;
+    getStore(storeName) {
+        return this.stores[storeName];
     }
 
     getDefaultAdapter() {
         return this.config.defaultAdapter;
     }
 
-    on(key, callback) {
+    onStoreChange(storeName, callback) {
         this.listeners.push({
-            key, callback,
+            storeName, callback,
         });
     }
 
-    off(key, callback) {
+    offStoreChange(storeName, callback) {
         this.listeners = this.listeners
             .filter(listener =>
-                !(listener.key === key && listener.callback === callback)
+                !(
+                    listener.storeName === storeName &&
+                    listener.callback === callback
+                )
             );
     }
 
-    emit(key, event, data) {
+    emitChange(storeName, changeType, payload) {
         this.listeners
-            .filter(listener => listener.key === key)
+            .filter(listener => listener.storeName === storeName)
             .forEach((listener) => {
-                listener.callback(key, event, data);
+                listener.callback(storeName, changeType, payload);
             });
     }
 }

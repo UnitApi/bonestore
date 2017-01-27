@@ -1,4 +1,4 @@
-class DataList {
+class CollectionStore {
     constructor(config = {}) {
         this.adapter = config.adapter;
         this.config = {
@@ -21,18 +21,19 @@ class DataList {
     }
     create(obj) {
         return this.adapter.createItem(this.key, obj).then((item) => {
-            this.container.emit(this.key, 'create', item);
+            this.container.emitChange(this.key, 'create', item);
         });
     }
     update(obj) {
         const id = obj[this.config.id];
         return this.adapter.updateItem(this.key, id, obj).then((item) => {
-            this.container.emit(this.key, 'update', item);
+            this.container.emitChange(this.key, 'update', item);
         });
     }
     delete(id) {
+        const idKey = this.config.id;
         return this.adapter.deleteItem(this.key, id).then(() => {
-            this.container.emit(this.key, 'delete');
+            this.container.emitChange(this.key, 'delete', { [idKey]: id });
         });
     }
     defaultFind() {
@@ -40,4 +41,4 @@ class DataList {
     }
 }
 
-export default DataList;
+export default CollectionStore;
