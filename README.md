@@ -49,8 +49,8 @@ store.define('posts', new DataList({
     id: 'id', // default,
 }));
 
-store.on('posts', (posts) => {
-    console.log('Posts changed', posts.findAll());
+store.on('posts', (storeName, event, postsData) => {
+    console.log('Posts changed', postsData);
 })
 ```
 

@@ -36,7 +36,7 @@ class BourbonData {
         this.listeners
             .filter(listener => listener.key === key)
             .forEach((listener) => {
-                listener.callback(event, data);
+                listener.callback(key, event, data);
             });
     }
 }
