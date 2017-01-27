@@ -32,7 +32,7 @@ class MemoryAdapter {
     }
     update(key, obj) {
         const data = this._getData(key);
-        data.value = Object.assign(data.value, obj);
+        data.value = Object.assign({}, data.value, obj);
         this._saveData(key, data);
         return Promise.resolve(data.value);
     }
