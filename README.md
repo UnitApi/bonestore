@@ -1,4 +1,4 @@
-# Bourbon data
+# Bourbon data [![Build Status](https://travis-ci.org/KacperKozak/bourbon-data.svg?branch=master)](https://travis-ci.org/KacperKozak/bourbon-data) [![Dependency Status](https://david-dm.org/KacperKozak/bourbon-data.svg)](https://david-dm.org/KacperKozak/bourbon-data) [![devDependencies Status](https://david-dm.org/KacperKozak/bourbon-data/dev-status.svg)](https://david-dm.org/KacperKozak/bourbon-data?type=dev)
 
 Simple app data management.
 
