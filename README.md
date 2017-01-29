@@ -2,140 +2,143 @@
 
 Simple app data management.
 
-## API
+## Installing
 
-- **`new BourbonData(config)`**
-  - `defineStore(name, store)`
-  - `getStore(name)`
-  - `onStoreChange(storeName, callback)`
-  - `offStoreChange(storeName, callback)`
-  - `emitChange(storeName, changeType, payload)`
+Using npm:
 
-### Stores
-
-- **`new Store(config)`**
-  - `find()`
-  - `create(obj)`
-  - `update(obj)`
-  - `delete()`
-
-
-- **`new CollectionStore(config)`**
-  - `find(id)`
-  - `findAll()`
-  - `create(obj)`
-  - `update(obj)`
-  - `delete(id)`
-
-### Adapters
-
-- `new MemoryAdapter()`
-- `new LocalStorageAdapter(config)`
-- `new HttpRestAdapter(config)` **(work in progress)**
-
+```
+$ npm install bourbon-data
+```
 
 ## Example
 
-### Create BourbonData instance
+First create `BourbonData` instance.
+It will be used to hold stores and provide default adapter.
+
 ```js
-import BourbonData, { Store, CollectionStore, LocalStorageAdapter } from 'bourbon-data';
+import BourbonData, { Store, CollectionStore, HttpRestAdapter } from 'bourbon-data';
 
 const data = new BourbonData({
-    defaultAdapter: new LocalStorageAdapter({
-        prefix: 'my_app_',
+    defaultAdapter: new HttpRestAdapter({
+        baseURL: 'https://api.example.com/v1/',
     }),
 });
 ```
 
-### Define store
+Next define stores
 
 ```js
-// Data object { key: value }
-data.defineStore('user', new Store());
+// Simple data object { key: value }
+data.defineStore('permissions', new Store());
 
 // Collection of objects [{key: value}, …]
-data.defineStore('posts', new CollectionStore({
-    id: 'id', // default,
-}));
+data.defineStore('posts', new CollectionStore());
 ```
 
-### Read/create/update/delete store
+Finally you can read/create/update/delete
 
 ```js
-data.getStore('user')
-    .find()
-    .then((user) => {
-        user.name;
+data.getStore('permissions')
+    .find() // GET https://api.example.com/v1/permissions
+    .then((permissions) => {
+        permissions.roles;
     });
 
-data.getStore('user')
-    .create({
-        name: 'Kacper'
-    })
-    .then((user) => {
-        user.name;
+data.getStore('posts')
+    .findAll() // GET https://api.example.com/v1/posts
+    .then((postsArray) => {
+        postsArray;
     });
 
-data.getStore('user')
-    .update({
-        name: 'Kacper'
-    })
-    .then((user) => {
-        user.name;
+data.getStore('posts')
+    .find(321) // GET https://api.example.com/v1/posts/321
+    .then((post) => {
+        post;
     });
 
-data.getStore('user')
-    .delete()
-    .then(() => {
-        // done
+data.getStore('posts')
+    .create({ title: 'Lorem' }) // POST https://api.example.com/v1/posts
+    .then((post) => {
+        post.id; // new id from backend
+        post.title; // 'Lorem'
     });
 ```
 
-### Read/create/update/delete collection store
-
-```js
-data.getStore('posts')
-    .findAll()
-    .then((postArray) => {
-        postArray[0].title;
-    });
-
-data.getStore('posts')
-    .find(1)
-    .then((post) => {
-        post.title;
-    });
-
-data.getStore('posts')
-    .create({
-        title: 'Lorem',
-    })
-    .then((post) => {
-        post.id; // new id
-        post.title;
-    });
-
-data.getStore('posts')
-    .update({
-        id: 2,
-        title: 'Lorem',
-    })
-    .then((post) => {
-        post.id;
-        post.title;
-    });
-
-data.getStore('posts')
-    .delete(2)
-    .then(() => {
-        // done
-    });
-```
-
-### Watch store changes
+Watch store changes
 
 ```js
 data.onStoreChange('posts', (storeName, changeType, payload) => {
     console.log('Posts changed', changeType, payload);
 })
+```
+
+## API
+
+### `BourbonData(config)`
+
+#### Configuration
+ - `defaultAdapter: adapterInstance` - default adapter for defined stores
+
+#### Methods
+ - `defineStore(storeName, storeInstance)` - define store
+ - `getStore(storeName)` - return defined store
+ - `onStoreChange(storeName, callback)` - listen for changes in specific store
+ - `offStoreChange(storeName, callback)` - stop listen
+ - `emitChange(storeName, changeType, payload)` - emmit store change (for internal use in stores)
+
+
+### Stores
+
+#### `new Store(config)`
+ - `find(params)`
+ - `create(obj, params)`
+ - `update(obj, params)`
+ - `delete(params)`
+
+#### `new CollectionStore(config)`
+ - `find(id, params)`
+ - `findAll(params)`
+ - `create(obj, params)`
+ - `update(obj, params)`
+ - `delete(id, params)`
+
+#### Store configuration
+ - `adapter: adapterInstance` - (optional) adapter instance
+
+**Warning:** `params` currently only work with HTTP adapter and are sent as query string.
+
+
+
+### Adapters
+```js
+new MemoryAdapter()
+```
+```js
+new LocalStorageAdapter({
+    prefix: 'my_app_', // default ''
+})
+```
+```js
+new HttpRestAdapter({
+    baseURL: '',
+    timeout: 2000, // default 10s
+    headers: {},
+})
+```
+
+
+## Extending stores
+
+If you need more complex functionality, you can extend the Store class.
+```js
+// PostsStore.js
+class PostsStore extends CollectionStore {
+    findUserPosts(userId) {
+        return this.findAll({ user: userId });
+    }
+}
+```
+```js
+// data.js
+data.defineStore('posts', new PostsStore());
 ```

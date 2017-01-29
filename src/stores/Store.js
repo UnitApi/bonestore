@@ -10,21 +10,21 @@ class Store {
             this.adapter = this.container.getDefaultAdapter();
         }
     }
-    find() {
-        return this.adapter.find(this.key);
+    find(params) {
+        return this.adapter.find(this.key, params);
     }
-    create(obj) {
-        return this.adapter.create(this.key, obj).then((item) => {
+    create(obj, params) {
+        return this.adapter.create(this.key, obj, params).then((item) => {
             this.container.emitChange(this.key, 'create', item);
         });
     }
-    update(obj) {
-        return this.adapter.update(this.key, obj).then((item) => {
+    update(obj, params) {
+        return this.adapter.update(this.key, obj, params).then((item) => {
             this.container.emitChange(this.key, 'update', item);
         });
     }
-    delete() {
-        return this.adapter.delete(this.key).then(() => {
+    delete(params) {
+        return this.adapter.delete(this.key, params).then(() => {
             this.container.emitChange(this.key, 'delete');
         });
     }

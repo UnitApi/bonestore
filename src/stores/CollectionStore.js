@@ -13,26 +13,27 @@ class CollectionStore {
             this.adapter = this.container.getDefaultAdapter();
         }
     }
-    find(id) {
-        return this.adapter.findItem(this.key, id);
+    find(id, params) {
+        return this.adapter.findItem(this.key, id, params);
     }
-    findAll() {
-        return this.adapter.findAllItems(this.key);
+    findAll(params) {
+        return this.adapter.findAllItems(this.key, params);
     }
-    create(obj) {
-        return this.adapter.createItem(this.key, obj).then((item) => {
+    create(obj, params) {
+        return this.adapter.createItem(this.key, obj, params).then((item) => {
             this.container.emitChange(this.key, 'create', item);
         });
     }
-    update(obj) {
+    update(obj, params) {
         const id = obj[this.config.id];
-        return this.adapter.updateItem(this.key, id, obj).then((item) => {
-            this.container.emitChange(this.key, 'update', item);
-        });
+        return this.adapter.updateItem(this.key, id, obj, params)
+            .then((item) => {
+                this.container.emitChange(this.key, 'update', item);
+            });
     }
-    delete(id) {
+    delete(id, params) {
         const idKey = this.config.id;
-        return this.adapter.deleteItem(this.key, id).then(() => {
+        return this.adapter.deleteItem(this.key, id, params).then(() => {
             this.container.emitChange(this.key, 'delete', { [idKey]: id });
         });
     }
