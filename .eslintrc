@@ -22,9 +22,6 @@
             "exports": "always-multiline",
         }],
         "max-len": ["error", 80],
-        "max-depth": ["error", 4],
-        "max-nested-callbacks": ["error", 4],
-        "complexity": ["warn", 4],
         "no-warning-comments": ["warn", {
             "terms": ["todo", "@todo"],
             "location": "start"

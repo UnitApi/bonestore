@@ -20,15 +20,18 @@ class CollectionStore {
         return this.adapter.findAllItems(this.key, params);
     }
     create(obj, params) {
-        return this.adapter.createItem(this.key, obj, params).then((item) => {
-            this.container.emitChange(this.key, 'create', item);
-        });
+        return this.adapter.createItem(this.key, obj, params)
+            .then((item) => {
+                this.container.emitChange(this.key, 'create', item);
+                return item;
+            });
     }
     update(obj, params) {
         const id = obj[this.config.id];
         return this.adapter.updateItem(this.key, id, obj, params)
             .then((item) => {
                 this.container.emitChange(this.key, 'update', item);
+                return item;
             });
     }
     delete(id, params) {

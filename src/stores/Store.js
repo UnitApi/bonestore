@@ -16,11 +16,13 @@ class Store {
     create(obj, params) {
         return this.adapter.create(this.key, obj, params).then((item) => {
             this.container.emitChange(this.key, 'create', item);
+            return item;
         });
     }
     update(obj, params) {
         return this.adapter.update(this.key, obj, params).then((item) => {
             this.container.emitChange(this.key, 'update', item);
+            return item;
         });
     }
     delete(params) {
