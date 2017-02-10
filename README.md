@@ -91,17 +91,18 @@ data.onStoreChange('posts', (storeName, changeType, payload) => {
 ### Stores
 
 #### `new Store(config)`
- - `find(params)`
- - `create(obj, params)`
- - `update(obj, params)`
- - `delete(params)`
+ - `find(params)` - find object
+ - `create(obj, params)` - overwrite
+ - `update(obj, params)` - update
+ - `delete(params)` - remove (empty object)
 
 #### `new CollectionStore(config)`
- - `find(id, params)`
- - `findAll(params)`
- - `create(obj, params)`
- - `update(obj, params)`
- - `delete(id, params)`
+ - `find(id, params)` - find one item
+ - `findAll(params)` - find list of items
+ - `create(obj, params)` - create new object
+ - `update(obj, params)` - update existing item (id must be provided)
+ - `save(obj, params)` - update or create item when id does not exists
+ - `delete(id, params)` - delete one item
 
 #### Store configuration
  - `adapter: adapterInstance` - (optional) adapter instance

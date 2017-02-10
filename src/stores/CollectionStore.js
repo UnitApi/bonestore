@@ -40,6 +40,12 @@ class CollectionStore {
             this.container.emitChange(this.key, 'delete', { [idKey]: id });
         });
     }
+    save(obj, params) {
+        if (obj[this.config.id]) {
+            return this.update(obj, params);
+        }
+        return this.create(obj, params);
+    }
     defaultFind() {
         return this.findAll();
     }
