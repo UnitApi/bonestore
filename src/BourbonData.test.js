@@ -1,38 +1,65 @@
 import BourbonData from './BourbonData';
 import Store from './stores/Store';
+import CollectionStore from './stores/CollectionStore';
 import MemoryAdapter from './adapters/MemoryAdapter';
 
 describe('BourbonData', () => {
-    it('should define store', () => {
-        const memoryAdapter = new MemoryAdapter();
-        const data = new BourbonData();
-        const store = new Store({
-            adapter: memoryAdapter,
+    describe('model', () => {
+        it('should define store', () => {
+            const memoryAdapter = new MemoryAdapter();
+            const data = new BourbonData();
+            const store = new Store({
+                adapter: memoryAdapter,
+            });
+            data.defineStore('user', store);
+            expect(data.getStore('user')).toBe(store);
         });
-        data.defineStore('user', store);
-        expect(data.getStore('user')).toBe(store);
-    });
-    it('should use default adapter', () => {
-        const memoryAdapter = new MemoryAdapter();
-        const data = new BourbonData({
-            defaultAdapter: memoryAdapter,
+        it('should use default adapter', () => {
+            const memoryAdapter = new MemoryAdapter();
+            const data = new BourbonData({
+                defaultAdapter: memoryAdapter,
+            });
+            data.defineStore('user', new Store());
+            expect(data.getStore('user').adapter).toBe(memoryAdapter);
         });
-        data.defineStore('user', new Store());
-        expect(data.getStore('user').adapter).toBe(memoryAdapter);
+        it('should create and find data', () => {
+            const memoryAdapter = new MemoryAdapter();
+            const data = new BourbonData();
+            data.defineStore('user', new Store({
+                adapter: memoryAdapter,
+            }));
+            return data.getStore('user')
+                .create({ name: 'Test' })
+                .then((newUser) => {
+                    expect(newUser.name).toBe('Test');
+                    return data.getStore('user').find().then((user) => {
+                        expect(user.name).toBe('Test');
+                    });
+                });
+        });
     });
-    it('should create and find data', () => {
-        const memoryAdapter = new MemoryAdapter();
-        const data = new BourbonData();
-        data.defineStore('user', new Store({
-            adapter: memoryAdapter,
-        }));
-        return data.getStore('user')
-            .create({ name: 'Test' })
-            .then(() =>
-                data.getStore('user').find().then((user) => {
-                    expect(user.name).toBe('Test');
-                })
-            );
+
+    describe('collection', () => {
+        it('should create new id in collections', () => {
+            const data = new BourbonData();
+            data.defineStore('posts', new CollectionStore({
+                adapter: new MemoryAdapter(),
+            }));
+            return data.getStore('posts')
+                .create({ topic: 'Test' })
+                .then((newPost) => {
+                    expect(newPost).toEqual({
+                        topic: 'Test',
+                        id: expect.anything(),
+                    });
+                    return data.getStore('posts').findAll().then((posts) => {
+                        expect(posts[0]).toEqual({
+                            topic: 'Test',
+                            id: expect.anything(),
+                        });
+                    });
+                });
+        });
     });
 
     describe('events', () => {
