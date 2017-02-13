@@ -1,4 +1,4 @@
-class BourbonData {
+class Bonestore {
     constructor(config) {
         this.config = config;
         this.stores = [];
@@ -43,4 +43,4 @@ class BourbonData {
     }
 }
 
-export default BourbonData;
+export default Bonestore;

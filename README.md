@@ -1,5 +1,5 @@
-# Bourbon data
-[![npm version](https://img.shields.io/npm/v/bourbon-data.svg)](https://www.npmjs.com/package/bourbon-data)  [![Build Status](https://travis-ci.org/KacperKozak/bourbon-data.svg?branch=master)](https://travis-ci.org/KacperKozak/bourbon-data) [![Dependency Status](https://david-dm.org/KacperKozak/bourbon-data.svg)](https://david-dm.org/KacperKozak/bourbon-data) [![devDependencies Status](https://david-dm.org/KacperKozak/bourbon-data/dev-status.svg)](https://david-dm.org/KacperKozak/bourbon-data?type=dev)
+# Bonestore
+[![npm version](https://img.shields.io/npm/v/bonestore.svg)](https://www.npmjs.com/package/bonestore)  [![Build Status](https://travis-ci.org/KacperKozak/bonestore.svg?branch=master)](https://travis-ci.org/KacperKozak/bonestore) [![Dependency Status](https://david-dm.org/KacperKozak/bonestore.svg)](https://david-dm.org/KacperKozak/bonestore) [![devDependencies Status](https://david-dm.org/KacperKozak/bonestore/dev-status.svg)](https://david-dm.org/KacperKozak/bonestore?type=dev)
 
 Simple app data management.
 
@@ -8,18 +8,18 @@ Simple app data management.
 Using npm:
 
 ```
-$ npm install bourbon-data
+$ npm install bonestore
 ```
 
 ## Example
 
-First create `BourbonData` instance.
+First create `Bonestore` instance.
 It will be used to hold stores and provide default adapter.
 
 ```js
-import BourbonData, { Store, CollectionStore, HttpRestAdapter } from 'bourbon-data';
+import Bonestore, { Store, CollectionStore, HttpRestAdapter } from 'bonestore';
 
-const data = new BourbonData({
+const data = new Bonestore({
     defaultAdapter: new HttpRestAdapter({
         baseURL: 'https://api.example.com/v1/',
     }),
@@ -75,7 +75,7 @@ data.onStoreChange('posts', (storeName, changeType, payload) => {
 
 ## API
 
-### `BourbonData(config)`
+### `Bonestore(config)`
 
 #### Configuration
  - `defaultAdapter: adapterInstance` - default adapter for defined stores

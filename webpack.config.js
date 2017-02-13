@@ -9,7 +9,7 @@ module.exports = {
         publicPath: '/dist',
         filename: '[name].js',
         libraryTarget: 'umd',
-        library: 'bourbon-data',
+        library: 'bonestore',
     },
     module: {
         loaders: [

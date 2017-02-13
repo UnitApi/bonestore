@@ -1,13 +1,13 @@
-import BourbonData from './BourbonData';
+import Bonestore from './Bonestore';
 import Store from './stores/Store';
 import CollectionStore from './stores/CollectionStore';
 import MemoryAdapter from './adapters/MemoryAdapter';
 
-describe('BourbonData', () => {
+describe('Bonestore', () => {
     describe('model', () => {
         it('should define store', () => {
             const memoryAdapter = new MemoryAdapter();
-            const data = new BourbonData();
+            const data = new Bonestore();
             const store = new Store({
                 adapter: memoryAdapter,
             });
@@ -16,7 +16,7 @@ describe('BourbonData', () => {
         });
         it('should use default adapter', () => {
             const memoryAdapter = new MemoryAdapter();
-            const data = new BourbonData({
+            const data = new Bonestore({
                 defaultAdapter: memoryAdapter,
             });
             data.defineStore('user', new Store());
@@ -24,7 +24,7 @@ describe('BourbonData', () => {
         });
         it('should create and find data', () => {
             const memoryAdapter = new MemoryAdapter();
-            const data = new BourbonData();
+            const data = new Bonestore();
             data.defineStore('user', new Store({
                 adapter: memoryAdapter,
             }));
@@ -41,7 +41,7 @@ describe('BourbonData', () => {
 
     describe('collection', () => {
         it('should create new id in collections', () => {
-            const data = new BourbonData();
+            const data = new Bonestore();
             data.defineStore('posts', new CollectionStore({
                 adapter: new MemoryAdapter(),
             }));
@@ -65,7 +65,7 @@ describe('BourbonData', () => {
     describe('events', () => {
         let data;
         beforeEach(() => {
-            data = new BourbonData({
+            data = new Bonestore({
                 defaultAdapter: new MemoryAdapter(),
             });
             data.defineStore('user', new Store({}));
