@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:KacperKozak/bonestore.git"
+    "url": "ssh://git@github.com:Bonestore/bonestore.git"
   },
   "keywords": [
     "data",
