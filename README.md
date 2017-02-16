@@ -1,5 +1,5 @@
 # Bonestore
-[![npm version](https://img.shields.io/npm/v/bonestore.svg)](https://www.npmjs.com/package/bonestore)  [![Build Status](https://travis-ci.org/KacperKozak/bonestore.svg?branch=master)](https://travis-ci.org/KacperKozak/bonestore) [![Dependency Status](https://david-dm.org/KacperKozak/bonestore.svg)](https://david-dm.org/KacperKozak/bonestore) [![devDependencies Status](https://david-dm.org/KacperKozak/bonestore/dev-status.svg)](https://david-dm.org/KacperKozak/bonestore?type=dev)
+[![npm version](https://img.shields.io/npm/v/bonestore.svg)](https://www.npmjs.com/package/bonestore) [![Build Status](https://travis-ci.org/Bonestore/bonestore.svg?branch=master)](https://travis-ci.org/Bonestore/bonestore) [![Dependency Status](https://david-dm.org/Bonestore/bonestore.svg)](https://david-dm.org/Bonestore/bonestore) [![devDependencies Status](https://david-dm.org/Bonestore/bonestore/dev-status.svg)](https://david-dm.org/Bonestore/bonestore?type=dev)
 
 Simple app data management.
 
