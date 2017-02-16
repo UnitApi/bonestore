@@ -8,7 +8,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch --coverage",
     "lint": "eslint --ext .jsx --ext .js src",
-    "ci": "npm run lint && npm run test && npm run build",
+    "ci": "npm run lint && npm run test && codecov && npm run build",
     "prepublish": "npm run build"
   },
   "pre-commit": [
@@ -37,6 +37,7 @@
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.18.0",
+    "codecov": "^1.0.1",
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
